@@ -1,5 +1,4 @@
 import React from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 import { Container, Col, Row, Card, Button, Form } from 'react-bootstrap'
 import BlogContext from '../app/context'
@@ -11,7 +10,7 @@ export const getStaticPaths = async () => {
 
   return{
     params: {
-      
+
     }
   }
 }
