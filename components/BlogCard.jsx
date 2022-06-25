@@ -19,8 +19,8 @@ const BlogCard = ({ id, Title, description, author }) => {
       {/* <Card.Body style={{textOverflow: "ellipsis"}}>
         <p className="lead">{item.paragraph}</p>
       </Card.Body> */}
-      <Link to={`${id}`} className="btn btn-outline-dark">
-        Read More
+      <Link href={`${id}`} >
+          <a className="btn btn-outline-dark">Read More</a>
       </Link>
     </Card>
   )

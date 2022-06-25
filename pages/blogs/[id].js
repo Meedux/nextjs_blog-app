@@ -1,57 +1,71 @@
 import React from 'react'
 import { useContext, useEffect, useState } from 'react'
 import { Container, Col, Row, Card, Button, Form } from 'react-bootstrap'
-import BlogContext from '../app/context'
 import { BsTrash } from 'react-icons/bs'
 import { AiFillEdit } from 'react-icons/ai'
 import CommentItem from '../components/CommentItem'
+import { useDispatch, useSelector } from 'react-redux'
+import { addBlog, editAndUpdate, deleteBlog, setBlog, setBlogIDs, setBlogs, setState, setBlogID, setBlogEditState } from '../../app/redux/slice'
+import Router from 'next/router'
+
+
+
 
 export const getStaticPaths = async () => {
+  const dispatch = useDispatch();
+  dispatch(setBlogIDs())
+  const paths = useSelector(state => state.blog.blogIDs)
 
   return{
-    params: {
-
-    }
+    paths,
+    fallback: false
   }
 }
 
 export const getServerSideProps = async (params) => {
+  const dispatch = useDispatch();
+  dispatch(setBlogID({ payload: { id: parseInt(params.id) } }))
+  const data = dispatch(getBlog({ id: parseInt(params.id) }))
   return{
     props: {
-
+      data
     }
   }
 }
 
 
-const BlogPage = () => {
+const BlogPage = ({ data }) => {
+  const dispatch = useDispatch();
   const generateUniqueId = require('generate-unique-id');
   const [ commentName, setComName ] = useState('')
   const [ comment, setComment] = useState('')
   const today = new Date();
   const date = (today.getMonth()+1)+'-'+today.getDate()+'-'+today.getFullYear();
+  const id = useSelector(state => state.blog.blogID)
 
-  const nav = useNavigate();
-  const { id } = useParams()
-  const { blog, getBlog, getBlogs, deleteBlog, setEditBlog, setBlogID, editAndUpdate  } = useContext(BlogContext)
-  useEffect(()=>{
-    getBlog(id)
-    getBlogs()
-  }, [])
+  //const nav = useNavigate();
+  //const { id } = useParams()
+
+  //const { blog, getBlog, getBlogs, deleteBlog, setEditBlog, setBlogID, editAndUpdate  } = useContext(BlogContext)
+  //useEffect(()=>{
+  //  getBlog(id)
+  //  getBlogs()
+  //}, [])
+
   const adBlogs = [];
-  const data = blog;
+  //const data = blog;
 
   function deleteAndExit(e){
     e.preventDefault()
-    deleteBlog(id)
-    nav('/blogs')
+    dispatch(deleteBlog({ payload: { id: data.id } })) // change
+    Router.push('/blogs')
   }
 
   function updateBlog(e){
       e.preventDefault()
-      setEditBlog(true)
-      setBlogID(data.id)
-      nav('/write')
+      dispatch(setBlogEditState({ payload: { editState: true } })) //change
+      dispatch(setBlogID({ payload: { id: data.id } })) //change
+      Router.push('/write')
   }
 
 
@@ -65,8 +79,9 @@ const BlogPage = () => {
 
       data.comments.push(commentData)
 
-      editAndUpdate(data, id)
-      nav(`/blogs/${id}`)
+      dispatch(editAndUpdate({ payload: { obj: data, id: data.id } })) //change
+      //nav(`/blogs/${id}`)
+      Router.push(`/blogs/${data.id}`)
 
       setComName('')
       setComment('')

@@ -1,16 +1,18 @@
 import React from 'react'
 import { Container, Card, Form } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
 import { useContext, useState , useEffect} from 'react'
-import BlogContext from './../app/context'
+import { useSelector, useDispatch } from 'react-redux/es/exports'
+import { getBlogs } from '../../app/redux/slice'
+import Router from 'next/router'
 
 
 
 const WriteBlog = ({  }) => {
-    const nav = useNavigate()
-    const { addBlog, editBlog, blog, getBlog, blogID, setBlogID, setEditBlog, editAndUpdate } = useContext(BlogContext)
+    //const nav = useNavigate()
+    //const { addBlog, editBlog, blog, getBlog, blogID, setBlogID, setEditBlog, editAndUpdate } = useContext(BlogContext)
+    const dispatch = useDispatch()
     const generateUniqueId = require('generate-unique-id');
-
+    const { editableBlog } = useSelector(state => state.blog)
     const [id, setID] = useState(generateUniqueId())
     const [title, setTitle] = useState('')
     const [desc, setDesc] = useState('')
@@ -43,11 +45,7 @@ const WriteBlog = ({  }) => {
         console.log(data)
 
 
-        addBlog(data)
-        // document.getElementById('Title').value = '';
-        // document.getElementById('description').value = ''
-        // document.getElementById('author').value = ''
-        // document.getElementById('paragraph').value = ''
+        dispatch(addBlog({ payload: { blogItem: data } })) //change
 
         setTitle('')
         setDesc('')
@@ -56,7 +54,7 @@ const WriteBlog = ({  }) => {
         setKey('')
 
 
-        nav(`/blogs/${id}`);
+        Router.push(`/blogs/${data.id}`);
     }
 
 
@@ -72,7 +70,7 @@ const WriteBlog = ({  }) => {
             key: secret_key
         }
 
-        editAndUpdate(data, blogID)
+        dispatch(editAndUpdate({ payload: { obj: data, id: editableBlog.id } })) //change data, blogID
 
         setTitle('')
         setDesc('')
@@ -80,20 +78,19 @@ const WriteBlog = ({  }) => {
         setParagraph('')
         setEditBlog(false)
 
-        const tempID = blogID;
+        const tempID = editableBlog.id;
 
-        setBlogID('')
 
-        nav(`/blogs/${tempID}`)
+        Router.push(`/blogs/${tempID}`)
     }
 
     useEffect(() => {
         if(editBlog){
-            getBlog(blogID)
-            setTitle(blog.Title)
-            setDesc(blog.description)
-            setAuthor(blog.author)
-            setParagraph(blog.paragraph)
+            getBlog(editableBlogID) //change
+            setTitle(editableBlog.Title)
+            setDesc(editableBlog.description)
+            setAuthor(editableBlog.author)
+            setParagraph(editableBlog.paragraph)
         }
     }, [])
 

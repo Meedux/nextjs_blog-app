@@ -12,10 +12,12 @@ const NavigationBar = () => {
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="mx-auto">
-                      <Link style={{ textDecoration: 'none'}} className="me-3" to="/">Home</Link>
-                      <Link style={{ textDecoration: 'none'}} className="me-3" to="/blogs">Blogs</Link>
-                      <Link style={{ textDecoration: 'none'}} className="me-3" to="contacts">Contacts</Link>
-                      <Link style={{ textDecoration: 'none'}} className="me-3" to="write">Write a Blog</Link>
+                      <Nav.Link style={{ textDecoration: 'none'}} className="me-3" href="/">
+                        Home
+                        </Nav.Link>
+                      <Nav.Link style={{ textDecoration: 'none'}} className="me-3" href="/blogs">Blogs</Nav.Link>
+                      <Nav.Link style={{ textDecoration: 'none'}} className="me-3" href="contacts">Contacts</Nav.Link>
+                      <Nav.Link style={{ textDecoration: 'none'}} className="me-3" href="write">Write a Blog</Nav.Link>
                   </Nav>
               </Navbar.Collapse>
           </Container>

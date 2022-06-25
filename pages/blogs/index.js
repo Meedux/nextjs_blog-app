@@ -1,22 +1,29 @@
 import React from 'react'
-import { useContext, useEffect } from 'react'
 import { Container, Card } from 'react-bootstrap'
-import BlogContext from '../app/context'
-import BlogCard from './../components/BlogCard'
+import BlogCard from '../../components/BlogCard'
+import { useDispatch, useSelector } from 'react-redux/es/exports'
+import { getBlogs } from '../../app/redux/slice'
+
+
 
 export const getServerSideProps = async () => {
+  const dispatch = useDispatch()
+  dispatch(getBlogs())
+  const blogs = useSelector(state => state.blogs)
   return {
-    params: {
-
+    props: {
+      blogs
     }
   }
 }
 
-const Blogs = ({ params }) => {
-  const { getBlogs, blogs } = useContext(BlogContext);
-  useEffect(()=>{
-    getBlogs()
-  }, [])
+const Blogs = ({ blogs }) => {
+  const dispatch = useDispatch()
+
+  //const { getBlogs, blogs } = useContext(BlogContext);
+  //useEffect(()=>{
+  //  getBlogs()
+  //}, [])
 
   if(blogs.length == 0){
     return(

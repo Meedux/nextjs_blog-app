@@ -3,8 +3,8 @@ import { Container, Row, Col} from 'react-bootstrap'
 import Link from 'next/link'
 import ImgOverlay from './../components/ImgOverlay'
 import Footer from '../components/Footer'
-import blog from './../assets/img/blog.jpg'
-import about from './../assets/img/about.jpg'
+import blog from '../assets/img/blog.jpg'
+import about from '../assets/img/about.jpg'
 
 const Home = () => {
   return (
@@ -23,7 +23,7 @@ const Home = () => {
                 <Col>
                     <h1>Blogs and stuff</h1>
                     <p className="lead text-start">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur tenetur esse labore est? Neque deserunt autem saepe ut sapiente nulla ipsam rem omnis labore itaque totam sed dolore, ea consectetur reprehenderit, repellat facilis laudantium vero nostrum modi culpa tempora alias veritatis quasi. Maxime quod sed nobis hic possimus deserunt repudiandae?</p>
-                    <Link className="btn btn-outline-primary" to="/blogs">See More</Link>
+                    <Link className="btn btn-outline-primary" href="/blogs">See More</Link>
                 </Col>
               </Row>
 
@@ -31,7 +31,7 @@ const Home = () => {
                 <Col>
                     <h1 className='text-end'>About Us</h1>
                     <p className="lead text-end">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur tenetur esse labore est? Neque deserunt autem saepe ut sapiente nulla ipsam rem omnis labore itaque totam sed dolore, ea consectetur reprehenderit, repellat facilis laudantium vero nostrum modi culpa tempora alias veritatis quasi. Maxime quod sed nobis hic possimus deserunt repudiandae?</p>
-                    <Link className="btn btn-outline-primary text-right" to="/about">See More</Link>
+                    <Link className="btn btn-outline-primary text-right" href="/about">See More</Link>
                 </Col>
                 <Col className="d-flex justify-content-center">
                   <ImgOverlay src={about} radius="200" width="500px" height="300px"/>

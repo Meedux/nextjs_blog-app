@@ -1,17 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit/dist/createSlice";
+import { createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
 
 export const blogSlice = createSlice({
-    name: 'blogFunc',
+    name: 'blog',
     initialState: {
         blog: {},
         blogs: [],
-        blogState: false,
+        blogEditableState: false,
+        editableBlog: {},
         blogID: '',
         blogIDs: []
     },
     reducers: {
         addBlog: function(state, action){ //action{ payload: blogItem: {} }
-            axios.post('http://localhost:1000/blog', blogItem)
+            axios.post('http://localhost:1000/blog', action.payload.blogItem)
+            .then(response => blogSlice.caseReducers.setState({type: 'blogs', payload: { blogs: response.data }}))
             .catch(err => console.log(err))
         },
         editAndUpdate: function(state, action){ //action{ payload: { obj, id } }
@@ -20,31 +23,40 @@ export const blogSlice = createSlice({
         deleteBlog: function(state, action){ //action{ payload: { id } }
             axios.delete(`http://localhost:1000/blog/${action.payload.id}`)
         },
-        getBlogs: function(state, action){
+        setBlogs: function(state, action){
             axios.get('http://localhost:1000/blog')
-                .then(response => blogSlice.caseReducers.setReducer({ type: 'blogs', payload: { blogs: response.data } }))
+                .then(response => blogSlice.caseReducers.setState({type: 'blogs', payload: { blogs: response.data }}))
                 .catch(err => console.log(err))
         },
-        getBlog: function(state, action){//action{ payload: { id } }
-            axios.get(`http://localhost:1000/blog/${id}`)
-                .then(response => blogSlice.caseReducers.setReducer({ type: 'blog', payload: { blog: response.data } }))
+        setBlog: function(state, action){//action{ payload: { id } }
+            axios.get(`http://localhost:1000/blog/${action.payload.id}`)
+                .then(response => blogSlice.caseReducers.setState({ type: 'blog', payload: {blog: response.data} }))
                 .catch(err => console.log(err))
         },
-        getBlogIDs: function(state, action){
+        setBlogIDs: function(state, action){
             axios.get(`http://localhost:1000/blog/${id}`)
                 .then(response => {
                     const data = response.data.map(item => {
                         return item.id
                     })
 
-                    blogSlice.caseReducers.setReducer({ type: 'blogIDs', payload: { blogIDs: data } })
+                    blogSlice.caseReducers.setState({ type: 'blogIDs', payload: {blogIDs: response.data} })
 
                 })
                 .catch(err => console.log(err))
         },
+        setBlogID: function(state, action){
+            blogSlice.caseReducers.setState({ type: 'blogID', payload: { id: action.payload.id } })
+        },
 
+        setBlogEditState: function(state, action){
+            blogSlice.caseReducers.setState({ type: 'editBlogState', payload: { blogState: action.payload.editState } })
+        },
+        setEditableBlog: function(state, action){
+
+        },
         //Will act as a Set State for Global States
-        setReducer: function(state, action){ //action{ payload: { blog: {}, blogs: [], blogState: bool, blogID: '' or 0, blogIDs: [] }  }
+        setState: function(state, action){ //action{ payload: { blog: {}, blogs: [], blogState: bool, blogID: '' or 0, blogIDs: [] }  }
             switch(action.type){
                 case 'blog':{ //Getting the Blog item as an object
 
@@ -65,7 +77,7 @@ export const blogSlice = createSlice({
 
                     return {
                         ...state,
-                        blogState: action.payload.blogState
+                        blogEditableState: action.payload.blogState
                     }
                 }
                 case 'blogID': { //Return the Blog ID of a certain Blog
@@ -87,3 +99,7 @@ export const blogSlice = createSlice({
     }
 
 })
+
+export const { addBlog, editAndUpdate, deleteBlog, getBlog, getBlogIDs, getBlogs, setState, setBlogID, setBlogEditState } = blogSlice.actions
+
+export default blogSlice.reducer
