@@ -53,7 +53,7 @@ const BlogPage = ({ data }) => {
   //const data = blog;
 
   function deleteAndExit(e){
-    dispatch(deleteBlog({ payload: { id: data.id } }))
+    dispatch(deleteBlog({ id: data.id }))
     Router.push('/blogs')
   }
 
@@ -73,7 +73,7 @@ const BlogPage = ({ data }) => {
 
       data.comments.push(commentData)
 
-      dispatch(updateblog({ obj: data }))
+      dispatch(updateblog({ obj: data, id: data.id }))
       //nav(`/blogs/${id}`)
       Router.push(`/blogs/${data.id}`)
 

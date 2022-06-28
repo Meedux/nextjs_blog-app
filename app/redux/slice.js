@@ -10,17 +10,8 @@ export const blogSlice = createSlice({
     },
     reducers: {
         addblog: (state, action) => {
-            axios.post('http://localhost:1000/blog', action.payload.blog)
-
-
-            const newBlogs = state.blogs;
-
-            newBlogs.push(action.payload.blog)
-
-            return{
-                ...state,
-                blogs: newBlogs
-            }
+            axios.post('http://localhost:1000/blog', action.payload.blog) 
+            state.blogs.push(action.payload.blog)
         },
         updateblog: (state, action) => {
             axios.put(`http://localhost:1000/blog/${action.payload.id}`, action.payload.obj)
@@ -42,18 +33,11 @@ export const blogSlice = createSlice({
         deleteBlog: (state, action) => {
             axios.delete(`http://localhost:1000/blog/${action.payload.id}`)
 
-            const newBlogs = state.blogs;
-
-            newBlogs.forEach((item, index) => {
+            state.blogs.forEach((item, index) => {
                 if(String(item.id) === String(action.payload.id)){
                     newBlogs.splice(index, 1)
                 }
             })
-
-            return{
-                ...state,
-                blogs: newBlogs
-            }
         },
         changeEditState: (state, action) => {
             return{
