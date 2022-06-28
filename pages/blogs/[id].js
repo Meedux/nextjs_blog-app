@@ -1,20 +1,23 @@
 import React from 'react'
-import { useContext, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Container, Col, Row, Card, Button, Form } from 'react-bootstrap'
 import { BsTrash } from 'react-icons/bs'
 import { AiFillEdit } from 'react-icons/ai'
-import CommentItem from '../components/CommentItem'
+import CommentItem from '../../components/CommentItem'
 import { useDispatch, useSelector } from 'react-redux'
-import { addBlog, editAndUpdate, deleteBlog, setBlog, setBlogIDs, setBlogs, setState, setBlogID, setBlogEditState } from '../../app/redux/slice'
+import { blogSlice } from '../../app/redux/slice'
+import { useRouter } from 'next/router'
+import { addblog, updateblog, deleteBlog, changeEditState } from '../../app/redux/slice'
 import Router from 'next/router'
+import axios from 'axios'
 
 
 
+export async function getStaticPaths(){
+  const response = await axios.get('http://localhost:1000/blog');
+  const data = await response.data;
 
-export const getStaticPaths = async () => {
-  const dispatch = useDispatch();
-  dispatch(setBlogIDs())
-  const paths = useSelector(state => state.blog.blogIDs)
+  const paths = data.map(item => { return { params: { id: String(item.id) } }})
 
   return{
     paths,
@@ -22,12 +25,13 @@ export const getStaticPaths = async () => {
   }
 }
 
-export const getServerSideProps = async (params) => {
-  const dispatch = useDispatch();
-  dispatch(setBlogID({ payload: { id: parseInt(params.id) } }))
-  const data = dispatch(getBlog({ id: parseInt(params.id) }))
-  return{
-    props: {
+
+export async function getStaticProps({ params }){
+  const response = await axios.get(`http://localhost:1000/blog/${params.id}`);
+  const data = await response.data;
+
+  return {
+    props:{
       data
     }
   }
@@ -36,35 +40,25 @@ export const getServerSideProps = async (params) => {
 
 const BlogPage = ({ data }) => {
   const dispatch = useDispatch();
+  const router = useRouter()
   const generateUniqueId = require('generate-unique-id');
   const [ commentName, setComName ] = useState('')
   const [ comment, setComment] = useState('')
   const today = new Date();
   const date = (today.getMonth()+1)+'-'+today.getDate()+'-'+today.getFullYear();
-  const id = useSelector(state => state.blog.blogID)
+  // const { id } = router.query
 
-  //const nav = useNavigate();
-  //const { id } = useParams()
-
-  //const { blog, getBlog, getBlogs, deleteBlog, setEditBlog, setBlogID, editAndUpdate  } = useContext(BlogContext)
-  //useEffect(()=>{
-  //  getBlog(id)
-  //  getBlogs()
-  //}, [])
 
   const adBlogs = [];
   //const data = blog;
 
   function deleteAndExit(e){
-    e.preventDefault()
-    dispatch(deleteBlog({ payload: { id: data.id } })) // change
+    dispatch(deleteBlog({ payload: { id: data.id } }))
     Router.push('/blogs')
   }
 
-  function updateBlog(e){
-      e.preventDefault()
-      dispatch(setBlogEditState({ payload: { editState: true } })) //change
-      dispatch(setBlogID({ payload: { id: data.id } })) //change
+  function updateBlog(e){ 
+      dispatch(changeEditState({payload: { editState: true, editBlog: data }})) 
       Router.push('/write')
   }
 
@@ -79,7 +73,7 @@ const BlogPage = ({ data }) => {
 
       data.comments.push(commentData)
 
-      dispatch(editAndUpdate({ payload: { obj: data, id: data.id } })) //change
+      dispatch(updateblog({ obj: data }))
       //nav(`/blogs/${id}`)
       Router.push(`/blogs/${data.id}`)
 

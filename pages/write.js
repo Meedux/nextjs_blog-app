@@ -2,17 +2,17 @@ import React from 'react'
 import { Container, Card, Form } from 'react-bootstrap'
 import { useContext, useState , useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux/es/exports'
-import { getBlogs } from '../../app/redux/slice'
+import { changeEditState, getBlogs } from '../app/redux/slice'
+import generateUniqueId from 'generate-unique-id'
 import Router from 'next/router'
+import { updateblog } from '../app/redux/slice'
 
 
-
-const WriteBlog = ({  }) => {
-    //const nav = useNavigate()
-    //const { addBlog, editBlog, blog, getBlog, blogID, setBlogID, setEditBlog, editAndUpdate } = useContext(BlogContext)
+const WriteBlog = () => {
+    const { editState } = useSelector(state => state.blog)
+    const [ editBlog, setEditBlog ] = useState({})
+    
     const dispatch = useDispatch()
-    const generateUniqueId = require('generate-unique-id');
-    const { editableBlog } = useSelector(state => state.blog)
     const [id, setID] = useState(generateUniqueId())
     const [title, setTitle] = useState('')
     const [desc, setDesc] = useState('')
@@ -24,6 +24,9 @@ const WriteBlog = ({  }) => {
         useNumbers: true
     }))
 
+    if(editState){
+        setEditBlog(useSelector(state => state.blog.editableBlog))
+    }
     
     function postBlog(e) {
         setKey(generateUniqueId({
@@ -42,10 +45,9 @@ const WriteBlog = ({  }) => {
             key: secret_key
         }
 
-        console.log(data)
 
 
-        dispatch(addBlog({ payload: { blogItem: data } })) //change
+        dispatch(addBlog({ payload: { blog: data } })) //change
 
         setTitle('')
         setDesc('')
@@ -70,7 +72,8 @@ const WriteBlog = ({  }) => {
             key: secret_key
         }
 
-        dispatch(editAndUpdate({ payload: { obj: data, id: editableBlog.id } })) //change data, blogID
+        dispatch(updateblog({ payload: { obj: data, id: editableBlog.id } })) //change data, blogID
+        dispatch(changeEditState({ payload: { editState: false,  } }))
 
         setTitle('')
         setDesc('')
@@ -85,8 +88,7 @@ const WriteBlog = ({  }) => {
     }
 
     useEffect(() => {
-        if(editBlog){
-            getBlog(editableBlogID) //change
+        if(editState){
             setTitle(editableBlog.Title)
             setDesc(editableBlog.description)
             setAuthor(editableBlog.author)

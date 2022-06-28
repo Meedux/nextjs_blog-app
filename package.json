@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "name": "nextjs_blog-app",
   "version": "0.1.0",
   "private": true,
@@ -19,6 +18,7 @@
     "generate-unique-id": "^2.0.1",
     "json-server": "^0.17.0",
     "next": "12.1.6",
+    "next-redux-wrapper": "^7.0.5",
     "react": "18.2.0",
     "react-bootstrap": "^2.4.0",
     "react-dom": "18.2.0",

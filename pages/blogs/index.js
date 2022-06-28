@@ -1,15 +1,11 @@
 import React from 'react'
 import { Container, Card } from 'react-bootstrap'
 import BlogCard from '../../components/BlogCard'
-import { useDispatch, useSelector } from 'react-redux/es/exports'
-import { getBlogs } from '../../app/redux/slice'
+import axios from 'axios'
 
-
-
-export const getServerSideProps = async () => {
-  const dispatch = useDispatch()
-  dispatch(getBlogs())
-  const blogs = useSelector(state => state.blogs)
+export async function getServerSideProps(){
+  const response = await axios.get('http://localhost:1000/blog');
+  const blogs = await response.data;
   return {
     props: {
       blogs
@@ -17,15 +13,19 @@ export const getServerSideProps = async () => {
   }
 }
 
+
 const Blogs = ({ blogs }) => {
-  const dispatch = useDispatch()
 
-  //const { getBlogs, blogs } = useContext(BlogContext);
-  //useEffect(()=>{
-  //  getBlogs()
-  //}, [])
+  
+  if(!blogs){
+    return(
+      <>
+        <h1>Loading</h1>
+      </>
+    )
+  }
 
-  if(blogs.length == 0){
+  if(blogs.length === 0){
     return(
       <>
         <h1>Loading</h1>
