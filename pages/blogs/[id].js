@@ -58,8 +58,8 @@ const BlogPage = ({ data }) => {
   }
 
   function updateBlog(e){ 
-      dispatch(changeEditState({payload: { editState: true, editBlog: data }})) 
-      Router.push('/write')
+      dispatch(changeEditState({editState: true, editBlog: data })) 
+      Router.push('../write')
   }
 
 

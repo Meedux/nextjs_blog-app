@@ -12,6 +12,7 @@ export const blogSlice = createSlice({
         addblog: (state, action) => {
             axios.post('http://localhost:1000/blog', action.payload.blog)
 
+
             const newBlogs = state.blogs;
 
             newBlogs.push(action.payload.blog)
