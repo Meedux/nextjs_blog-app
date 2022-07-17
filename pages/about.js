@@ -11,7 +11,7 @@ const AboutUs = () => {
           <h1 className="text-center mb-5">About us</h1>
           <Row>
             <Col className="d-md-flex justify-content-center d-none">
-              <ImgOverlay src={img} height="550px" width="100%"/>
+              <ImgOverlay src={img} height="550px" />
             </Col>
             <Col>
               <p className="lead text-center">

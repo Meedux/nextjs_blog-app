@@ -1,5 +1,7 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import Row from "../components/styled/Row";
+import Col from "../components/styled/Col";
+import Container from "../components/styled/Container";
 import Link from "next/link";
 import ImgOverlay from "./../components/ImgOverlay";
 import Footer from "../components/Footer";
@@ -11,7 +13,7 @@ const Home = () => {
     <>
       <Container className="mb-5">
         <div className="text-center mb-4 pb-3">
-          <h1>Generic Title</h1>
+          <h1 className="text-4xl font-bold">Generic Title</h1>
           <p className="lead">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
             pariatur minima, corrupti voluptate natus hic sunt atque rerum
@@ -22,8 +24,8 @@ const Home = () => {
         </div>
 
         <Container className="mt-4">
-          <Row className="mb-5 pb-2">
-            <Col className="d-flex justify-content-center">
+          <Row style="mb-5 pb-2">
+            <Col style="flex justify-center">
               <ImgOverlay
                 radius="200"
                 width="500px"
@@ -32,8 +34,8 @@ const Home = () => {
               />
             </Col>
             <Col>
-              <h1>Blogs and stuff</h1>
-              <p className="lead text-start">
+              <h1 className="text-2xl font-bold mb-3">Blogs and stuff</h1>
+              <p className="lead text-start mb-7">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Consequuntur tenetur esse labore est? Neque deserunt autem saepe
                 ut sapiente nulla ipsam rem omnis labore itaque totam sed
@@ -41,15 +43,17 @@ const Home = () => {
                 laudantium vero nostrum modi culpa tempora alias veritatis
                 quasi. Maxime quod sed nobis hic possimus deserunt repudiandae?
               </p>
-              <Link className="btn btn-outline-primary" href="/blogs">
-                See More
+              <Link href="/blogs">
+                <a className="p-4 bg-gray-900 text-white rounded transition hover:bg-gray-500">
+                  See More
+                </a>
               </Link>
             </Col>
           </Row>
 
-          <Row>
+          <Row style='mb-5'>
             <Col>
-              <h1 className="text-end">About Us</h1>
+              <h1 className="text-end text-2xl font-bold mb-3">About Us</h1>
               <p className="lead text-end">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Consequuntur tenetur esse labore est? Neque deserunt autem saepe
@@ -58,14 +62,13 @@ const Home = () => {
                 laudantium vero nostrum modi culpa tempora alias veritatis
                 quasi. Maxime quod sed nobis hic possimus deserunt repudiandae?
               </p>
-              <Link
-                className="btn btn-outline-primary text-right"
-                href="/about"
-              >
+              <Link href="/about">
+              <a className="p-4 bg-gray-900 text-white rounded transition hover:bg-gray-500">
                 See More
+              </a>
               </Link>
             </Col>
-            <Col className="d-flex justify-content-center">
+            <Col style="flex justify-center">
               <ImgOverlay
                 src={about}
                 radius="200"
