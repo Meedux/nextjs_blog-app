@@ -1,4 +1,4 @@
-import { Card } from 'react-bootstrap'
+import Card from "./styled/Card"
 
 const CommentItem = ({ item }) => {
   return (

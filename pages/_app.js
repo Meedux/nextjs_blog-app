@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import "bootswatch/dist/flatly/bootstrap.min.css";
 import store from '../app/redux/store'
 import NavigationBar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const App = ({ Component, pageProps }) => {
     return (

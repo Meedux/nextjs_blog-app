@@ -23,12 +23,12 @@ const NavigationBar = () => {
                           Blogs
                         </a>     
                       </Link>
-                      <Link  href="contacts">
+                      <Link  href="/contacts">
                         <a style={{ textDecoration: 'none'}} className="me-3">
                           Contacts
                         </a>
                       </Link>
-                      <Link href="write">
+                      <Link href="/write">
                         <a style={{ textDecoration: 'none'}} className="me-3" >
                           Write a Blog
                         </a>

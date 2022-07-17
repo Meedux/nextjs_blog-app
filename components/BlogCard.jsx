@@ -1,16 +1,16 @@
 import React from 'react'
-import { Card } from 'react-bootstrap'
 import Link from 'next/link'
+import Card from './styled/Card'
 
 const BlogCard = ({ id, Title, description, author }) => {
   return (
     <Card className="d-block d-md-inline-block m-4 p-3 shadow-sm hover" style={{width: "18rem"}}>
-      <Card.Title className="mb-5">
-        <h3>
+      <Card.Title>
+        <h3 className='font-bold'>
           {Title}
         </h3>
       </Card.Title>
-      <Card.Subtitle className="mb-3">
+      <Card.Subtitle>
         <p className="lead mb-3">
           {description}
         </p>
