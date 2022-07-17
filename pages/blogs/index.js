@@ -1,6 +1,6 @@
 import React from 'react'
-import { Container, Card } from 'react-bootstrap'
 import BlogCard from '../../components/BlogCard'
+import Container from '../../components/styled/Container';
 import axios from 'axios'
 
 export async function getServerSideProps(){
